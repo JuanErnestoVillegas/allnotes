@@ -1,0 +1,76 @@
+body {
+  /* background-image: url(); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+}
+
+body::before{
+  content: "";
+  width: 100%;
+  min-height: 100vh;
+  position: absolute;
+  top: 0%;
+  left: 0;
+  /* background: linear-gradient(90deg, rgb(43, 114, 177), #55a6b8 ); */
+  opacity: 0.5;
+  z-index: -1;
+}
+
+form{
+  width: 100%;
+  margin: auto;
+  margin-top: 50px;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.4);
+  padding: 10px 20px;
+  box-sizing: border-box;
+  border-radius: 7;
+  -webkit-box-shadow: 5px 5px 15px 5px #000000; 
+  box-shadow: 5px 5px 15px 5px #000000;
+}
+
+main{
+  justify-content: center;
+  color: rgba(0, 0, 0, 0.8);
+  margin: 8px;
+
+}
+
+.legend{
+  font-size: 60px;
+  text-decoration: double;
+  margin-top: 30px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.navbar{
+  background-color: black;
+  opacity: 0.9;
+}
+.collapse{
+  align-items: center;
+  margin-left: 25%;
+}
+.navbar-toggler-icon{
+  background-color: white;
+  border-radius: 20%;
+}
+
+.form-general{
+  padding-top: 15px;
+  padding-left: 15%;
+}
+.form-de-registro {
+  align-items: center;
+  padding-top: 5%;
+  color: black;
+}
+
+@media screen and (max-width: 800px){
+  .form-general{
+    padding: 15px 5px 15px 5px; 
+  }
+}
