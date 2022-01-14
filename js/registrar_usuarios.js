@@ -1,5 +1,6 @@
 const formulario = document.getElementById("formulario");
 const inputs = document.querySelectorAll("#formulario input");
+let userVerificado = false;
 
 const expresiones = {
   input_names: /^[a-zA-ZÀ-ÿ\s]{3,40}$/, // Letras y espacios, pueden llevar acentos. (nombre)
@@ -27,9 +28,15 @@ const validarFormulario = (e) => {
       break;
     case "input_names":
       validarCampo(expresiones.input_names, e.target, "input_names");
+      if(campos.input_names){			
+				document.getElementById('input_names').value=FirstLetterWords(e.target.value);
+      }
       break;
     case "input_lastname":
         validarCampo(expresiones.input_lastname, e.target, "input_lastname");
+        if(campos.input_lastname){			
+          document.getElementById('input_lastname').value=FirstLetterWords(e.target.value);
+        }
       break;
     case "input_user":
       validarCampo(expresiones.input_user, e.target, "input_user");
@@ -68,7 +75,6 @@ const validarPassword = (e) => {
 };
 
 //Ambas contraseñas deben coincidir:
-
 const validarPassword2 = () => {
   const input_password1 = document.getElementById("input_password");
   const input_passwordconfirm1 = document.getElementById("input_passwordconfirm");
@@ -83,28 +89,63 @@ const validarPassword2 = () => {
     campos["input_password"] = true;
   }
 };
-//tipeo
 
+//Primera letra de cada palabra a mayúsculas
+function FirstLetterWords(str)
+{
+    var partes = str.split(" ");
+    for ( var i = 0; i < partes.length; i++ )
+    {
+        var j = partes[i].charAt(0).toUpperCase();
+        partes[i] = j + partes[i].substr(1);
+    }
+    return partes.join(" ");
+}
+
+//tipeo
 inputs.forEach((input) => {
   input.addEventListener("keyup", validarFormulario);
   input.addEventListener("blur", validarFormulario);
 });
 
-let array, campo, nombreusuario = '';
+const recuperarLS_usuarios = () => {
+  let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+  if (usuarios == null) {
+    usuarios = [];
+  }
+};
 
 function buscarUsuario(array, campo, nombreusuario){
   let usuarios = JSON.parse(localStorage.getItem("usuarios"));
   if (usuarios == null) {
     usuarios = [];
   }
-  if(array.find(campo=> array.campo===nombreusuario)){
-    return true;
-  } else {
+  
+  let resultado = usuarios.find(item=>item.user === `${nombreusuario}`); //Bien
+  // let resultado = `${array}`.find(item=>item`.${campo} === '${nombreusuario}'`); //aun no
+  console.log(`${nombreusuario}`);
+  console.log(resultado);
+
+  if(typeof resultado === 'undefined'){
+    console.log(`NO ENCONTRADO`);   
     return false;
-  }
- 
+  } else {
+    return true;
+    console.log(`ENCONTRADO`);  
+  } 
 }
 
+function verificarDisponibilidad(){
+    if(!buscarUsuario("usuarios", "user", document.getElementById("input_user").value)){ 
+      console.log('Usuario disponible.');
+      userVerificado=true;
+  } else{
+      setTimeout(function() { alert('El usuario ya existe. Ingrese uno diferente.'); }, 1000);
+      document.getElementById("input_user").value='';
+      document.getElementById("input_user").focus(); 
+  }
+
+}
 
 //GUARDAR DATOS EN EL LOCALSTORAGE
 
@@ -114,23 +155,22 @@ function guardarUsuario() {
   const email = document.getElementById("input_email").value;  
   const usuario = document.getElementById("input_user").value;
   const pais = document.getElementById("input_state").value;
-  const contraseña = document.getElementById("input_password").value;  
+  const contraseña = document.getElementById("input_password").value;
 
-  // let usuarios = JSON.parse(localStorage.getItem("usuarios"));
-  // if (usuarios == null) {
-  //   usuarios = [];
-  // }
+  let usuarios = JSON.parse(localStorage.getItem("usuarios"));
+  if (usuarios == null) {
+    usuarios = [];
+  }
  
-  if(!buscarUsuario("usuarios", "user", usuario)){
-
   const newUsuario = {
     id: usuarios.length + 1,
     nombre: nombre,
     apellido: apellido,
     email: email,
-    user: user,
+    user: usuario,
     pais: pais,
     contraseña: contraseña,
+    activo: false,
   };
   console.log(newUsuario);
 
@@ -140,9 +180,7 @@ function guardarUsuario() {
   localStorage.setItem("usuarios", usuarioLS);
 
   // guardarUserJson(newUsuario);
-} else{
-  console.log('El usuario ya existe. Ingrese otro');
-}
+
 }
 /*
 
@@ -172,7 +210,9 @@ formulario.addEventListener("submit", (e) => {
     campos.input_user &&
     campos.input_password &&
     campos.input_passwordconfirm
-  ) {  
+  ) {
+    
+    if(userVerificado){  
     guardarUsuario();
     formulario.reset();
 
@@ -185,7 +225,9 @@ formulario.addEventListener("submit", (e) => {
       icono.classList.remove("is-valid");
       window.location.assign(window.location.origin + '/index.html');
     });
-  } else {
+  } 
+  }
+   else {
     document.getElementById("checkFormulario").classList.add();
    }
 });
