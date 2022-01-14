@@ -120,8 +120,8 @@ function buscarUsuario(array, campo, nombreusuario){
   if (usuarios == null) {
     usuarios = [];
   }
-  
-  let resultado = usuarios.find(item=>item.user === `${nombreusuario}`); //Bien
+  console.log(usuarios);
+   let resultado = usuarios.find(item=>item.user === `${nombreusuario}`); //Bien
   // let resultado = `${array}`.find(item=>item`.${campo} === '${nombreusuario}'`); //aun no
   console.log(`${nombreusuario}`);
   console.log(resultado);
