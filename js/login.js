@@ -18,14 +18,28 @@ function loginCheck(event) {
 	event.preventDefault();
 	
 	let usuario = document.querySelector('#input_usuario').value;
-	let pass = document.querySelector('#input_pass').value;    	
+	let pass = document.querySelector('#input_pass').value; 
+	//Buscar el elemento		
 	let userLogged = usuarios.find(item=>item.user === `${usuario}`);	
-
+	console.log(usuarios);
+	console.log(userLogged);
+	let idUser = userLogged.id;
+	console.log(idUser);
 	if(userLogged.user=== usuario && userLogged.contraseña === pass){
-        userLogged.activo=true; //Usuario logueado
+		//Modificar el array
+		const newUsuarios = usuarios.map(obj => {
+			if (obj.id === idUser) {
+			  return {...obj, activo: true};
+			}		  
+			return obj;
+		  });
+		usuarios=newUsuarios; //Actualizo el array
+		console.log(usuarios);		
 		console.log('Usuario logueado');
-		// localStorage.setItem('usuarios',JSON.stringify(userLogged));
-		window.location.assign(window.location.origin+'/index.html');
+		//Actualizar el LS
+		localStorage.setItem('usuarios',JSON.stringify(usuarios));
+
+		//window.location.assign(window.location.origin+'/index.html');
 	}else {
 		let dataError = document.createElement('div');
 		dataError.innerText='Los datos ingresados no son correctos';
