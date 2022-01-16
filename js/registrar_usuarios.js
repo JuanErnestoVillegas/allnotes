@@ -130,8 +130,8 @@ function buscarUsuario(array, campo, nombreusuario){
     console.log(`NO ENCONTRADO`);   
     return false;
   } else {
-    return true;
     console.log(`ENCONTRADO`);  
+    return true;    
   } 
 }
 
@@ -161,7 +161,8 @@ function guardarUsuario() {
   if (usuarios == null) {
     usuarios = [];
   }
- 
+  let tareasLS = JSON.parse(localStorage.getItem("tareas"));
+
   const newUsuario = {
     id: usuarios.length + 1,
     nombre: nombre,
@@ -170,6 +171,7 @@ function guardarUsuario() {
     user: usuario,
     pais: pais,
     contraseña: contraseña,
+    tareas: tareasLS,
     activo: false,
   };
   console.log(newUsuario);

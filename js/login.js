@@ -13,17 +13,18 @@ if (usuarios == null) {
   usuarios = [];
 }
 
+let userLogged;	
+let idUser;
 
 function loginCheck(event) {
-	event.preventDefault();
-	
+	event.preventDefault();	
 	let usuario = document.querySelector('#input_usuario').value;
 	let pass = document.querySelector('#input_pass').value; 
 	//Buscar el elemento		
-	let userLogged = usuarios.find(item=>item.user === `${usuario}`);	
+	userLogged = usuarios.find(item=>item.user === `${usuario}`);	
 	console.log(usuarios);
 	console.log(userLogged);
-	let idUser = userLogged.id;
+	idUser = userLogged.id;
 	console.log(idUser);
 	if(userLogged.user=== usuario && userLogged.contraseña === pass){
 		//Modificar el array
@@ -34,12 +35,15 @@ function loginCheck(event) {
 			return obj;
 		  });
 		usuarios=newUsuarios; //Actualizo el array
+		
+		localStorage.setItem('userlog',JSON.stringify(idUser));
 		console.log(usuarios);		
 		console.log('Usuario logueado');
 		//Actualizar el LS
 		localStorage.setItem('usuarios',JSON.stringify(usuarios));
-
-		//window.location.assign(window.location.origin+'/index.html');
+		document.getElementById("labeluser").value = usuario;
+		document.getElementById("idusuario").value = idUser;
+		window.location.assign(window.location.origin+'/index.html');
 	}else {
 		let dataError = document.createElement('div');
 		dataError.innerText='Los datos ingresados no son correctos';
@@ -51,3 +55,23 @@ function loginCheck(event) {
 		}, 5000)
 	}
 }
+
+const logout = (idUser) =>{	
+	usuarios = JSON.parse(localStorage.getItem("usuarios"));
+	const tareasLS = JSON.parse(localStorage.getItem('tareas'));
+	const newUsuarios = usuarios.map(obj => {
+		if (obj.id === idUser) {
+		  return {...obj, tareas: tareasLS, activo: false};
+		}		  
+		return obj;
+	  });
+	usuarios=newUsuarios; //Actualizo el array
+	console.log(usuarios);		
+	console.log('Usuario Deslogueado');
+	//Actualizar el LS
+	localStorage.setItem('usuarios',JSON.stringify(usuarios));
+	localStorage.removeItem('userlog');
+	window.location.assign(window.location.origin);
+  }
+
+
