@@ -23,6 +23,17 @@ const recuperarLS = () => {
   }
 };
 
+const cargarUsuarioLog = () => {
+usuario_logueado = JSON.parse(localStorage.getItem("userlog"));
+console.log(usuario_logueado[1]);
+console.log(usuario_logueado[0]);
+document.getElementById("labeluser").innerHTML = usuario_logueado[1];
+document.getElementById("idusuario").innerHTML = usuario_logueado[0];
+
+// document.getElementById("labeluser").value = usuario_logueado[1];
+// document.getElementById("idusuario").value = usuario_logueado[0];
+};
+
 // *************** (C)REATE **********************
 const agregarTarea = (tarea, nota, estado = false) => {
   let tareaItem = {
@@ -87,6 +98,7 @@ window.addEventListener("load", (e) => {
   // hardcodeo dos tareas y las listo, pero deberia, solo para probar
   // agregarTarea("Aprender JS", "Quiero saber a full JS");
   // agregarTarea("Aprender React", "Quiero saber a full todo sobre React", true);
+  cargarUsuarioLog();
   listarTareas();
 });
 

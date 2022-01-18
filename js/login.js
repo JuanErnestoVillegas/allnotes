@@ -35,14 +35,17 @@ function loginCheck(event) {
 			return obj;
 		  });
 		usuarios=newUsuarios; //Actualizo el array
-		
-		localStorage.setItem('userlog',JSON.stringify(idUser));
-		console.log(usuarios);		
+		let usulog = [];
+		usulog[0]=idUser;
+		usulog[1]=usuario;
+		console.log(usulog);
+		localStorage.setItem('userlog',JSON.stringify(usulog));
+		console.log(usuarios);	
+				
 		console.log('Usuario logueado');
 		//Actualizar el LS
 		localStorage.setItem('usuarios',JSON.stringify(usuarios));
-		document.getElementById("labeluser").value = usuario;
-		document.getElementById("idusuario").value = idUser;
+
 		window.location.assign(window.location.origin+'/index.html');
 	}else {
 		let dataError = document.createElement('div');
