@@ -59,16 +59,24 @@ function loginCheck(event) {
 	}
 }
 
-const logout = (idUser) =>{	
+const logout = () =>{	
 	usuarios = JSON.parse(localStorage.getItem("usuarios"));
 	const tareasLS = JSON.parse(localStorage.getItem('tareas'));
+	
+
+	let usuLog = document.querySelector('#labeluser').textContent;
+	let idUser = parseInt(document.querySelector('#idusuario').textContent); 
+	console.log(usuLog);
+	console.log(idUser);
 	const newUsuarios = usuarios.map(obj => {
 		if (obj.id === idUser) {
 		  return {...obj, tareas: tareasLS, activo: false};
 		}		  
 		return obj;
 	  });
+
 	usuarios=newUsuarios; //Actualizo el array
+
 	console.log(usuarios);		
 	console.log('Usuario Deslogueado');
 	//Actualizar el LS

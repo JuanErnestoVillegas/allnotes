@@ -161,7 +161,7 @@ function guardarUsuario() {
   if (usuarios == null) {
     usuarios = [];
   }
-  let tareasLS = JSON.parse(localStorage.getItem("tareas"));
+  // let tareasLS = JSON.parse(localStorage.getItem("tareas"));
 
   const newUsuario = {
     id: usuarios.length + 1,
@@ -171,7 +171,7 @@ function guardarUsuario() {
     user: usuario,
     pais: pais,
     contraseña: contraseña,
-    tareas: tareasLS,
+    tareas: [],
     activo: false,
   };
   console.log(newUsuario);
